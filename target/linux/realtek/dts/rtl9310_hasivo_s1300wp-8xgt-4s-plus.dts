@@ -1,0 +1,111 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+/dts-v1/;
+
+#include "rtl931x.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "hasivo,s1300wp-8xgt-4s+", "realtek,rtl9313";
+	model = "Hasivo S1300WP-8XGT-4S-plus";
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x00000000 0x20000000>;	/* 512 MiB DDR3 */
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,38400";
+	};
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	leds: leds {
+		compatible = "gpio-leds";
+		/* TODO: real GPIO numbers once you map them */
+		sys {
+			label = "green:sys";
+			gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+	};
+
+	gpio-restart {
+		compatible = "gpio-restart";
+		gpios = <&gpio0 7 GPIO_ACTIVE_LOW>; /* front-panel reset button */
+	};
+};
+
+/* ---------- on-board SPI NOR ------------------------------------------ */
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells   = <1>;
+
+			loader: partition@0 {
+				label  = "LOADER";
+				reg    = <0x000000 0x0e0000>;
+				read-only;
+			};
+			env@e0000 {
+				label  = "BDINFO";
+				reg    = <0x0e0000 0x010000>;
+			};
+			/* … replicate the map you printed in the boot-log … */
+			runtime@300000 {
+				label = "RUNTIME";
+				reg   = <0x300000 0x700000>;
+			};
+			runtime2@a00000 {
+				label = "RUNTIME2";
+				reg   = <0xa00000 0x600000>;
+			};
+		};
+	};
+};
+
+/* ---------- Ethernet switch fabric ----------------------------------- */
+
+&switch0 {
+	status = "okay";
+
+	ports {
+		/* 8× 10GBase-T (RTL8264 ×2) ------- */
+		port@0  { reg = < 0 >; label = "lan1";  phy-mode = "sgmii"; };
+		port@1  { reg = < 1 >; label = "lan2";  phy-mode = "sgmii"; };
+		port@2  { reg = < 2 >; label = "lan3";  phy-mode = "sgmii"; };
+		port@3  { reg = < 3 >; label = "lan4";  phy-mode = "sgmii"; };
+		port@4  { reg = < 4 >; label = "lan5";  phy-mode = "sgmii"; };
+		port@5  { reg = < 5 >; label = "lan6";  phy-mode = "sgmii"; };
+		port@6  { reg = < 6 >; label = "lan7";  phy-mode = "sgmii"; };
+		port@7  { reg = < 7 >; label = "lan8";  phy-mode = "sgmii"; };
+
+		/* 4× 10 G SFP+ cages -------------- */
+		port@28 { reg = <28>; label = "sfp9";  phy-mode = "10gsr"; };
+		port@29 { reg = <29>; label = "sfp10"; phy-mode = "10gsr"; };
+		port@30 { reg = <30>; label = "sfp11"; phy-mode = "10gsr"; };
+		port@31 { reg = <31>; label = "sfp12"; phy-mode = "10gsr"; };
+
+		/* CPU port ------------------------ */
+		cpu_port@48 {
+			reg = <48>;
+			ethernet = <&ethernet0>;
+			phy-mode = "internal";
+		};
+	};
+};
+
+/* ---------- UART ------------------------------------------------------ */
+
+&uart0 { status = "okay"; };
+
