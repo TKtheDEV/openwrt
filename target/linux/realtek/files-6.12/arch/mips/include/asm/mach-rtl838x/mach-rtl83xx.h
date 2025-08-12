@@ -236,12 +236,22 @@
 #define RTL930X_LED_GLB_CTRL		(0xCC00)
 #define RTL931X_LED_GLB_CTRL		(0x0600)
 
+#define RTL930X_EXT_GPIO_GLB_CTRL	(0xC600)
+#define RTL931X_EXT_GPIO_GLB_CTRL	(0x07D4)
+
 #define RTL838X_EXT_GPIO_DIR		(0xA08C)
 #define RTL839X_EXT_GPIO_DIR		(0x0214)
+#define RTL930X_EXT_GPIO_DIR		(0xC608)
+#define RTL931X_EXT_GPIO_DIR		(0x07DC)
 #define RTL838X_EXT_GPIO_DATA		(0xA094)
 #define RTL839X_EXT_GPIO_DATA		(0x021c)
+#define RTL930X_EXT_GPIO_DATA		(0xC614)
+#define RTL931X_EXT_GPIO_DATA		(0x07E8)
 #define RTL838X_EXT_GPIO_INDRT_ACCESS	(0xA09C)
 #define RTL839X_EXT_GPIO_INDRT_ACCESS	(0x0224)
+#define RTL930X_EXT_GPIO_INDRT_ACCESS	(0xC620)
+#define RTL931X_EXT_GPIO_INDRT_ACCESS	(0x07F4)
+
 #define RTL838X_EXTRA_GPIO_CTRL		(0xA0E0)
 #define RTL838X_DMY_REG5		(0x0144)
 #define RTL838X_EXTRA_GPIO_CTRL		(0xA0E0)
@@ -405,13 +415,6 @@ struct rtl83xx_soc_info {
 };
 
 /* rtl83xx-related functions used across subsystems */
-int rtl838x_smi_wait_op(int timeout);
-int rtl838x_read_phy(u32 port, u32 page, u32 reg, u32 *val);
-int rtl838x_write_phy(u32 port, u32 page, u32 reg, u32 val);
-int rtl839x_read_phy(u32 port, u32 page, u32 reg, u32 *val);
-int rtl839x_write_phy(u32 port, u32 page, u32 reg, u32 val);
-int rtl930x_read_phy(u32 port, u32 page, u32 reg, u32 *val);
-int rtl930x_write_phy(u32 port, u32 page, u32 reg, u32 val);
 int rtl931x_read_phy(u32 port, u32 page, u32 reg, u32 *val);
 int rtl931x_write_phy(u32 port, u32 page, u32 reg, u32 val);
 

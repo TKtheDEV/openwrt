@@ -246,6 +246,8 @@
 #define RTL838X_L2_LRN_CONSTRT_EN		(0x3368)
 #define RTL838X_L2_PORT_LRN_CONSTRT		(0x32A0)
 #define RTL839X_L2_PORT_LRN_CONSTRT		(0x3914)
+#define RTL930X_L2_LRN_PORT_CONSTRT_CTRL	(0x90A4)
+#define RTL931X_L2_LRN_PORT_CONSTRT_CTRL	(0xC96C)
 
 #define RTL838X_L2_PORT_NEW_SALRN(p)		(0x328c + (((p >> 4) << 2)))
 #define RTL839X_L2_PORT_NEW_SALRN(p)		(0x38F0 + (((p >> 4) << 2)))
@@ -276,6 +278,7 @@
 #define MV_ACT_COPY2CPU				3
 
 #define RTL930X_ST_CTRL				(0x8798)
+#define RTL931x_ST_CTRL				(0x8000)
 
 #define RTL930X_L2_PORT_SABLK_CTRL		(0x905c)
 #define RTL930X_L2_PORT_DABLK_CTRL		(0x9060)
@@ -706,7 +709,7 @@ struct rtl838x_pcs {
 
 struct rtl838x_vlan_info {
 	u64 untagged_ports;
-	u64 tagged_ports;
+	u64 member_ports;
 	u8 profile_id;
 	bool hash_mc_fid;
 	bool hash_uc_fid;
@@ -1143,6 +1146,7 @@ struct rtl838x_switch_priv {
 	u32 lag_primary[MAX_LAGS];
 	u32 is_lagmember[57];
 	u64 lagmembers;
+	struct workqueue_struct *wq;
 	struct notifier_block nb;  /* TODO: change to different name */
 	struct notifier_block ne_nb;
 	struct notifier_block fib_nb;
