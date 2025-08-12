@@ -2,8 +2,9 @@
 /dts-v1/;
 
 #include "rtl931x.dtsi"
-#include <dt-bindings/gpio/gpio.h>
+
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/leds/common.h>
 
  / {
@@ -25,7 +26,7 @@
 		serial0 = &uart0;
 	};
 
-	gpio-keys {
+/*	gpio-keys {
 		compatible = "gpio-keys";
 		reset {
 			label = "reset";
@@ -42,6 +43,7 @@
 			default-state = "on";
 		};
 	};
+*/
  };
 
 /* ---------- SPI Flash ---------- */
@@ -56,7 +58,7 @@
 		partitions {
 			compatible = "fixed-partitions";
 			#address-cells = <1>;
-			#size-cells   = <1>;
+			#size-cells = <1>;
 
 			partition@0 {
 				label = "LOADER";
@@ -112,71 +114,71 @@
 			reg = <0>;
 			sds = <2>;
 		};
-		phy1: ethernet-phy@1 {
+		phy1: ethernet-phy@8 {
 			compatible = "ethernet-phy-ieee802.3-c45";
 			rtl9300,smi-address = <0 1>;
 			reg = <8>;
 			sds = <3>;
 		};
-		phy2: ethernet-phy@2 {
+		phy2: ethernet-phy@10 {
 			compatible = "ethernet-phy-ieee802.3-c45";
 			rtl9300,smi-address = <0 2>;
 			reg = <16>;
 			sds = <4>;
 		};
-		phy3: ethernet-phy@3 {
+		phy3: ethernet-phy@18 {
 			compatible = "ethernet-phy-ieee802.3-c45";
 			rtl9300,smi-address = <0 3>;
 			reg = <24>;
 			sds = <5>;
 		};
-		phy4: ethernet-phy@4 {
+		phy4: ethernet-phy@20 {
 			compatible = "ethernet-phy-ieee802.3-c45";
 			rtl9300,smi-address = <1 4>;
 			reg = <32>;
 			sds = <6>;
 		};
-		phy5: ethernet-phy@5 {
+		phy5: ethernet-phy@28 {
 			compatible = "ethernet-phy-ieee802.3-c45";
 			rtl9300,smi-address = <1 5>;
 			reg = <40>;
 			sds = <7>;
 		};
-		phy6: ethernet-phy@6 {
+		phy6: ethernet-phy@30 {
 			compatible = "ethernet-phy-ieee802.3-c45";
 			rtl9300,smi-address = <1 6>;
 			reg = <48>;
 			sds = <8>;
 		};
-		phy7: ethernet-phy@7 {
+		phy7: ethernet-phy@32 {
 			compatible = "ethernet-phy-ieee802.3-c45";
 			rtl9300,smi-address = <1 7>;
 			reg = <50>;
 			sds = <9>;
 		};
 
-		phy8: ethernet-phy@8 {
+		phy8: ethernet-phy@34 {
 			compatible = "ethernet-phy-ieee802.3-c22";
 			reg = <52>;
 			sds = <10>;
 			phy-is-integrated;
 		};
 
-		phy9: ethernet-phy@9 {
+		phy9: ethernet-phy@35 {
 			compatible = "ethernet-phy-ieee802.3-c22";
 			reg = <53>;
 			sds = <11>;
 			phy-is-integrated;
 		};
 
-		phy10: ethernet-phy@10 {
+		phy10: ethernet-phy@36 {
 			compatible = "ethernet-phy-ieee802.3-c22";
 			reg = <54>;
 			sds = <12>;
 			phy-is-integrated;
 		};
 
-		phy11: ethernet-phy@11 {
+		phy11: ethernet-phy@37 {
 			compatible = "ethernet-phy-ieee802.3-c22";
 			reg = <55>;
 			sds = <13>;
@@ -201,43 +203,43 @@
 			phy-mode = "usxgmii";
 			phy-handle = <&phy0>;
 		};
-		port@1 {
+		port@8 {
 			reg = <8>;
 			label = "lan2";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy1>;
 		};
-		port@2 {
+		port@10 {
 			reg = <16>;
 			label = "lan3";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy2>;
 		};
-		port@3 {
+		port@18 {
 			reg = <24>;
 			label = "lan4";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy3>;
 		};
-		port@4 {
+		port@20 {
 			reg = <32>;
 			label = "lan5";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy4>;
 		};
-		port@5 {
+		port@28 {
 			reg = <40>;
 			label = "lan6";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy5>;
 		};
-		port@6 {
+		port@30 {
 			reg = <48>;
 			label = "lan7";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy6>;
 		};
-		port@7 {
+		port@32 {
 			reg = <50>;
 			label = "lan8";
 			phy-mode = "usxgmii";
