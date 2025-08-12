@@ -6,13 +6,14 @@
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/leds/common.h>
 
-/ {
+ / {
 	compatible = "hasivo,s1300wp-8xgt-4s-plus", "realtek,rtl9313";
 	model = "Hasivo S1300WP-8XGT-4S-plus";
 
 	memory@0 {
 		device_type = "memory";
-		reg = <0x00000000 0x10000000>; /* 256 MiB */
+		reg = <0x00000000 0x10000000>,
+		      <0x90000000 0x10000000>;
 	};
 
 	chosen {
@@ -41,7 +42,7 @@
 			default-state = "on";
 		};
 	};
-};
+ };
 
 /* ---------- SPI Flash ---------- */
 &spi0 {
@@ -104,55 +105,84 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		// Assuming RTL8264s are at MDIO bus 3 and SMI addresses 16–23
+		// 8x 10G NBASE-T PHYs (assumed 826x with SMI addresses)
 		phy0: ethernet-phy@0 {
 			compatible = "ethernet-phy-ieee802.3-c45";
+			rtl9300,smi-address = <0 0>;
 			reg = <0>;
-			rtl9300,smi-address = <3 16>;
-			sds = <6>;
+			sds = <2>;
 		};
 		phy1: ethernet-phy@1 {
 			compatible = "ethernet-phy-ieee802.3-c45";
-			reg = <1>;
-			rtl9300,smi-address = <3 17>;
-			sds = <7>;
+			rtl9300,smi-address = <0 1>;
+			reg = <8>;
+			sds = <3>;
 		};
 		phy2: ethernet-phy@2 {
 			compatible = "ethernet-phy-ieee802.3-c45";
-			reg = <2>;
-			rtl9300,smi-address = <3 18>;
-			sds = <8>;
+			rtl9300,smi-address = <0 2>;
+			reg = <16>;
+			sds = <4>;
 		};
 		phy3: ethernet-phy@3 {
 			compatible = "ethernet-phy-ieee802.3-c45";
-			reg = <3>;
-			rtl9300,smi-address = <3 19>;
-			sds = <9>;
+			rtl9300,smi-address = <0 3>;
+			reg = <24>;
+			sds = <5>;
 		};
 		phy4: ethernet-phy@4 {
 			compatible = "ethernet-phy-ieee802.3-c45";
-			reg = <4>;
-			rtl9300,smi-address = <3 20>;
-			sds = <10>;
+			rtl9300,smi-address = <1 4>;
+			reg = <32>;
+			sds = <6>;
 		};
 		phy5: ethernet-phy@5 {
 			compatible = "ethernet-phy-ieee802.3-c45";
-			reg = <5>;
-			rtl9300,smi-address = <3 21>;
-			sds = <11>;
+			rtl9300,smi-address = <1 5>;
+			reg = <40>;
+			sds = <7>;
 		};
 		phy6: ethernet-phy@6 {
 			compatible = "ethernet-phy-ieee802.3-c45";
-			reg = <6>;
-			rtl9300,smi-address = <3 22>;
-			sds = <12>;
+			rtl9300,smi-address = <1 6>;
+			reg = <48>;
+			sds = <8>;
 		};
 		phy7: ethernet-phy@7 {
 			compatible = "ethernet-phy-ieee802.3-c45";
-			reg = <7>;
-			rtl9300,smi-address = <3 23>;
-			sds = <13>;
+			rtl9300,smi-address = <1 7>;
+			reg = <50>;
+			sds = <9>;
 		};
+
+		phy8: ethernet-phy@8 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <52>;
+			sds = <10>;
+			phy-is-integrated;
+		};
+
+		phy9: ethernet-phy@9 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <53>;
+			sds = <11>;
+			phy-is-integrated;
+		};
+
+		phy10: ethernet-phy@10 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <54>;
+			sds = <12>;
+			phy-is-integrated;
+		};
+
+		phy11: ethernet-phy@11 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <55>;
+			sds = <13>;
+			phy-is-integrated;
+		};
+
 	};
 };
 
@@ -164,6 +194,7 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
+		// 8x NBASE-T ports
 		port@0 {
 			reg = <0>;
 			label = "lan1";
@@ -171,51 +202,80 @@
 			phy-handle = <&phy0>;
 		};
 		port@1 {
-			reg = <1>;
+			reg = <8>;
 			label = "lan2";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy1>;
 		};
 		port@2 {
-			reg = <2>;
+			reg = <16>;
 			label = "lan3";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy2>;
 		};
 		port@3 {
-			reg = <3>;
+			reg = <24>;
 			label = "lan4";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy3>;
 		};
 		port@4 {
-			reg = <4>;
+			reg = <32>;
 			label = "lan5";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy4>;
 		};
 		port@5 {
-			reg = <5>;
+			reg = <40>;
 			label = "lan6";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy5>;
 		};
 		port@6 {
-			reg = <6>;
+			reg = <48>;
 			label = "lan7";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy6>;
 		};
 		port@7 {
-			reg = <7>;
+			reg = <50>;
 			label = "lan8";
 			phy-mode = "usxgmii";
 			phy-handle = <&phy7>;
 		};
 
-		/* CPU Port */
-		port@48 {
-			reg = <48>;
+		// 4x SFP+ ports (SerDes linked)
+		port@34 {
+			reg = <52>;
+			label = "lan9";
+			phy-mode = "1000base-x";
+			phy-handle = <&phy8>;
+		};
+
+		port@35 {
+			reg = <53>;
+			label = "lan10";
+			phy-mode = "1000base-x";
+			phy-handle = <&phy9>;
+		};
+
+		port@36 {
+			reg = <54>;
+			label = "lan11";
+			phy-mode = "1000base-x";
+			phy-handle = <&phy10>;
+		};
+
+		port@37 {
+			reg = <55>;
+			label = "lan12";
+			phy-mode = "1000base-x";
+			phy-handle = <&phy11>;
+		};
+
+		// Internal CPU port
+		port@38 {
+			reg = <56>;
 			ethernet = <&ethernet0>;
 			phy-mode = "internal";
 			fixed-link {
