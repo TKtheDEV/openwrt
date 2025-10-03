@@ -366,6 +366,17 @@ define Device/asiarf_ap7621-001
 endef
 TARGET_DEVICES += asiarf_ap7621-001
 
+define Device/asiarf_ap7621-004-v3
+  $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
+  DEVICE_VENDOR := AsiaRF
+  DEVICE_MODEL := AP7621-004
+  DEVICE_VARIANT := v3
+  IMAGE_SIZE := 16000k
+  DEVICE_PACKAGES := kmod-mmc-mtk kmod-usb3
+endef
+TARGET_DEVICES += asiarf_ap7621-004-v3
+
 define Device/asiarf_ap7621-nv1
   $(Device/dsa-migration)
   $(Device/uimage-lzma-loader)
@@ -2094,6 +2105,10 @@ define Device/MikroTik
   IMAGE/sysupgrade.bin := append-kernel | yaffs-filesystem -L | \
 	pad-to $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | check-size | \
 	append-metadata
+  IMAGES += sysupgrade-v7.bin
+  IMAGE/sysupgrade-v7.bin := append-kernel | kernel-pack-npk | \
+	  yaffs-filesystem -L | pad-to $$$$(BLOCKSIZE) | \
+	  append-rootfs | pad-rootfs | check-size | append-metadata
 endef
 
 define Device/mikrotik_ltap-2hnd
@@ -3477,6 +3492,16 @@ define Device/zbtlink_zbt-we3526
 	kmod-usb-ledtrig-usbport -uboot-envtools
 endef
 TARGET_DEVICES += zbtlink_zbt-we3526
+
+define Device/zbtlink_zbt-wg108
+  IMAGE_SIZE := 16064k
+  DEVICE_VENDOR := Zbtlink
+  DEVICE_MODEL := ZBT-WG108
+  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2 kmod-usb2 kmod-usb3 \
+	kmod-mmc-mtk -uboot-envtools
+  SUPPORTED_DEVICES += zbt-wg108
+endef
+TARGET_DEVICES += zbtlink_zbt-wg108
 
 define Device/zbtlink_zbt-wg1602-16m
   $(Device/dsa-migration)
